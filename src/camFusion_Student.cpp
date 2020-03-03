@@ -187,12 +187,22 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
     TTC = (-1.0 / frameRate) / (1 - medianDistRatio);
 }
 
+// Helper function to sort lidar points based on their X (longitudinal) coordinate
+void sortLidarPointsX(std::vector<LidarPoint> &lidarPoints)
+{
+    // This std::sort with a lambda mutates lidarPoints, a vector of LidarPoint
+    std::sort(lidarPoints.begin(), lidarPoints.end(), [](LidarPoint a, LidarPoint b) {
+        return a.x < b.x;  // Sort ascending on the x coordinate only
+    });
+}
+
+
 void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
                      std::vector<LidarPoint> &lidarPointsCurr, double frameRate, double &TTC)
 {
     // Student Code 3
-   // sortLidarPointsX(lidarPointsPrev);
-   // sortLidatPointsX(lidarPointsCurr);
+    sortLidarPointsX(lidarPointsPrev);
+    sortLidarPointsX(lidarPointsCurr);
     double d0 = lidarPointsPrev[lidarPointsPrev.size() / 2].x;
     double d1 = lidarPointsCurr[lidarPointsCurr.size() / 2].x;
 
@@ -201,33 +211,56 @@ void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
 
 void matchBoundingBoxes(std::vector<cv::DMatch> &matches, std::map<int, int> &bbBestMatches, DataFrame &prevFrame, DataFrame &currFrame)
 {
-    // Student Code 4
-    std::multimap<int, int> mmap{};
+    std::multimap<int, int> mmap {};
     int maxPrevBoxID = 0;
 
-    // for (auto match : matches)
-    // {
-    //     cv::KeyPoint prevKp = prevFrame.keyPoints[match.queryIdx];
-    //     cv::KeyPoint currKp = currFrame.keyPoints[match.trainIdx];
+    for (auto match : matches) {
+        cv::KeyPoint prevKp = prevFrame.keypoints[match.queryIdx];
+        cv::KeyPoint currKp = currFrame.keypoints[match.trainIdx];
+        
+        int prevBoxID = -1;
+        int currBoxID = -1;
 
-    //     int prevBoxId = -1;
-    //     int currBoxId = -1;
+        // For each bounding box in the previous frame
+        for (auto bbox : prevFrame.boundingBoxes) {
+            if (bbox.roi.contains(prevKp.pt)) prevBoxID = bbox.boxID;
+        }
 
-    //     for (auto bbox : prevFrame.boundingBoxes)
-    //     {
-    //         if (bbox.roi.contains(prevKp.pt))
-    //             prevBoxId = bbox.boxID;
-    //     }
+        // For each bounding box in the current frame
+        for (auto bbox : currFrame.boundingBoxes) {
+            if (bbox.roi.contains(currKp.pt)) currBoxID = bbox.boxID;
+        }
+        
+        // Add the containing boxID for each match to a multimap
+        mmap.insert({currBoxID, prevBoxID});
 
-    //     for (auto bbox : currFrame.boundingBoxes)
-    //     {
-    //         if (bbox.roi.contains(currKp.pt))
-    //             currBoxId = bbox.boxID;
-    //     }
+        maxPrevBoxID = std::max(maxPrevBoxID, prevBoxID);
+    }
 
-    //     mmap.insert({currBoxId, prevBoxId});
-    //     maxPrevBoxID = std::max(maxPrevBoxID, prevBoxId);
+    // Setup a list of boxID int values to iterate over in the current frame
+    vector<int> currFrameBoxIDs {};
+    for (auto box : currFrame.boundingBoxes) currFrameBoxIDs.push_back(box.boxID);
 
+    // Loop through each boxID in the current frame, and get the mode (most frequent value) of associated boxID for the previous frame.
+    for (int k : currFrameBoxIDs) {
+        // Count the greatest number of matches in the multimap, where each element is {key=currBoxID, val=prevBoxID}
+        // std::multimap::equal_range(k) returns the range of all elements matching key = k.
+        auto rangePrevBoxIDs = mmap.equal_range(k);
 
-    // }
+        // Create a vector of counts (per current bbox) of prevBoxIDs
+        std::vector<int> counts(maxPrevBoxID + 1, 0);
+
+        // Accumulator loop
+        for (auto it = rangePrevBoxIDs.first; it != rangePrevBoxIDs.second; ++it) {
+            if (-1 != (*it).second) counts[(*it).second] += 1;
+        }
+
+        // Get the index of the maximum count (the mode) of the previous frame's boxID
+        int modeIndex = std::distance(counts.begin(), std::max_element(counts.begin(), counts.end()));
+
+        // Set the best matching bounding box map with
+        // key   = Previous frame's most likely matching boxID
+        // value = Current frame's boxID, k
+        bbBestMatches.insert({modeIndex, k});
+    }
 }

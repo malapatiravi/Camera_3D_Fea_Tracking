@@ -131,20 +131,20 @@ void show3DObjects(std::vector<BoundingBox> &boundingBoxes, cv::Size worldSize, 
 void clusterKptMatchesWithROI(BoundingBox &boundingBox, std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPoint> &kptsCurr, std::vector<cv::DMatch> &kptMatches)
 {
     // Student Code 1
-    for (int it = 0; it < kptMatches.size(); it++)
+    /*for (int it = 0; it < kptMatches.size(); it++)
     {
         if (boundingBox.roi.contains(kptsCurr[kptMatches[it].trainIdx].pt))
         {
             boundingBox.kptMatches.push_back(kptMatches[it]);
         }
-    }
-    // for(cv::DMatch match : kptMatches)
-    // {
-    //     if(boundingBox.roi.contains(kptsCurr[match.trainIdx].pt))
-    //     {
-    //         boundingBox.kptMatches.push_back(match);
-    //     }
-    // }
+    }*/
+     for(cv::DMatch match : kptMatches)
+     {
+         if(boundingBox.roi.contains(kptsCurr[match.trainIdx].pt))
+         {
+             boundingBox.kptMatches.push_back(match);
+         }
+     }
 }
 
 // Compute time-to-collision (TTC) based on keypoint correspondences in successive images

@@ -209,11 +209,11 @@ void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
     TTC = d1 * (1.0 / frameRate) / (d0 - d1);
 }
 
-void matchBoundingBoxes(std::vector<cv::DMatch> &matches, std::map<int, int> &bbBestMatches, DataFrame &prevFrame, DataFrame &currFrame)
+void matchBoundingBoxes(std::map<int, int> &bbBestMatches, DataFrame &prevFrame, DataFrame &currFrame)
 {
     std::multimap<int, int> mmap {};
     int maxPrevBoxID = 0;
-
+    std::vector<cv::DMatch> matches = currFrame.kptMatches;
     for (auto match : matches) {
         cv::KeyPoint prevKp = prevFrame.keypoints[match.queryIdx];
         cv::KeyPoint currKp = currFrame.keypoints[match.trainIdx];

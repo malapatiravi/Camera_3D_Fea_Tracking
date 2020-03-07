@@ -40,6 +40,7 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
         {
             const cv::Ptr<cv::flann::IndexParams>& indexParams = cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2);
             matcher = cv::makePtr<cv::FlannBasedMatcher>(indexParams);
+            
         }
         else
         {

@@ -35,10 +35,11 @@ In this final project, you will implement the missing parts in the schematic. To
 #Student Notes
 ## FP.1 Match 3D Objects
 Location: Lines 212 to 265 in camFusion_student.cpp
-
+The code calclates the Match betwen previous frame and current frame. 
 ## FP.2 Compute Lidar-based TTC
 Location: Lines 200 to 210 in  camFusion_student.cpp
-The code sorts the lidar points first usinf the sort Lidar code. 
+The code sorts the lidar points first using the sorting comprator.
+Once sorted the median  Lidar points details are used to claculate TTC. 
 TTC using lidar is calculated using the formula as follows
 TTC = d1*(1.0/frameRate/(d0-d1)
 ## FP.3 Associate Keypoint Correspondences with Bounding Boxes

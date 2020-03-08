@@ -38,10 +38,13 @@ Location: Lines 212 to 265 in camFusion_student.cpp
 
 ## FP.2 Compute Lidar-based TTC
 Location: Lines 200 to 210 in  camFusion_student.cpp
+The code sorts the lidar points first usinf the sort Lidar code. 
+TTC using lidar is calculated using the formula as follows
+TTC = d1*(1.0/frameRate/(d0-d1)
 ## FP.3 Associate Keypoint Correspondences with Bounding Boxes
-Location: Lines 151 to 188 in camFusion_student.cpp
+Location: Lines 133 to 150 in camFusion_student.cpp
 ## FP.4 Compute Camera-based TTC
-
+Location: Lines 156 to 190 camFusion_student.cpp
 ## FP.5 Performance Evaluation 1
 
 ## FP.6 Performance Evaluation 2

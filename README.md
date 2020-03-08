@@ -57,6 +57,13 @@ TTC using Lidar maximum value is 16.689. This was the heighest but for the same 
 The maximum difference between TTC Lidar and TTC Camera is 3.4 seconds at max. The exact TTC Lidar value is 11.96 and TTC Camera values is 15.34. I think this is not resonable given the difference of 3.4 seconds difference for the same image. 
 But when we look over all the images this does not show huge impact in TTC value at the end. 
 ## FP.6 Performance Evaluation 2
+I have tested every combination of detector and descriptor using the #define PERF_TESTING
+1. I observed that maximum diff of time between Camera TTC and Lidar TTC is with ORB and SIFT so they dont work together. the diff in time is 486.222s
+2. The best i have seen is with SHITOMASI detector and ORB descriptor is ORB. The diff is 0.010265s
+3. SHITOMASI det and BRISK desc seems to work well. But this comoibation may take more time. So this is not recommended. 
+4. FAST dete Type and ORB Desc Type works well with respect to time and also the maximum time diff is not more than 4 sec. 
+5. The following table provides more information on which combination performs better. 
+
 ```
 Det Type|Des Type|TTC Lidar|TTC Camera|Diff|abs diff|
 |:-----------:|:------------:|:--------:|:--------:|:-------:|:--------|

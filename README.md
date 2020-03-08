@@ -39,7 +39,7 @@ The code calclates the Match betwen previous frame and current frame.
 ## FP.2 Compute Lidar-based TTC
 Location: Lines 200 to 210 in  camFusion_student.cpp
 The code sorts the lidar points first using the sorting comprator.
-Once sorted the median  Lidar points details are used to claculate TTC. 
+Once sorted the median  Lidar points details are used to claculate TTC, This avoids using the closest or farway Lidar points and calculating the TTC. 
 TTC using lidar is calculated using the formula as follows
 TTC = d1*(1.0/frameRate/(d0-d1)
 ## FP.3 Associate Keypoint Correspondences with Bounding Boxes
@@ -47,5 +47,7 @@ Location: Lines 133 to 150 in camFusion_student.cpp
 ## FP.4 Compute Camera-based TTC
 Location: Lines 156 to 190 camFusion_student.cpp
 ## FP.5 Performance Evaluation 1
-
+TTC using Lidar maximum value is 16.689. This was the heighest but for the same frame the value for camera is 14.47 sec. The difference between TTC Camera and TTC Lidar is resonable. 
+The maximum difference between TTC Lidar and TTC Camera is 3.4 seconds at max. The exact TTC Lidar value is 11.96 and TTC Camera values is 15.34. I think this is not resonable given the difference of 3.4 seconds difference for the same image. 
+But when we look over all the images this does not show huge impact in TTC value at the end. 
 ## FP.6 Performance Evaluation 2

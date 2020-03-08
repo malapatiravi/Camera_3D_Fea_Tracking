@@ -31,3 +31,17 @@ In this final project, you will implement the missing parts in the schematic. To
 2. Make a build directory in the top level project directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./3D_object_tracking`.
+
+#Student Notes
+## FP.1 Match 3D Objects
+Location: Lines 212 to 265 in camFusion_student.cpp
+
+## FP.2 Compute Lidar-based TTC
+Location: Lines 200 to 210 in  camFusion_student.cpp
+## FP.3 Associate Keypoint Correspondences with Bounding Boxes
+Location: Lines 151 to 188 in camFusion_student.cpp
+## FP.4 Compute Camera-based TTC
+
+## FP.5 Performance Evaluation 1
+
+## FP.6 Performance Evaluation 2

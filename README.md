@@ -59,7 +59,7 @@ But when we look over all the images this does not show huge impact in TTC value
 ## FP.6 Performance Evaluation 2
 ```
 Det Type|Des Type|TTC Lidar|TTC Camera|Diff|abs diff|
-|---------|:----------:|------:|--------:|-------:|--------|
+|:-----------:|:------------:|:--------:|:--------:|:-------:|:--------|
 SHITOMASI|BRISK|12.5156|13.9019|1.38632|1.38632|
 SHITOMASI|BRISK|12.6142|12.9876|0.373362|0.373362|
 SHITOMASI|BRISK|14.091|13.2474|-0.843567|0.843567|

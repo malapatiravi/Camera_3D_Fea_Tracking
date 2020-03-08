@@ -61,7 +61,7 @@ I have tested every combination of detector and descriptor using the #define PER
 1. I observed that maximum diff of time between Camera TTC and Lidar TTC is with ORB and SIFT so they dont work together. the diff in time is 486.222s
 2. The best i have seen is with SHITOMASI detector and ORB descriptor is ORB. The diff is 0.010265s
 3. SHITOMASI det and BRISK desc seems to work well. But this comoibation may take more time. So this is not recommended. 
-4. FAST dete Type and ORB Desc Type works well with respect to time and also the maximum time diff is not more than 4 sec. 
+4. AKAZE dete Type and AKAZE Desc Type works well with respect to time and also the maximum time diff is not more than 2 sec. 
 5. The following table provides more information on which combination performs better. 
 
 ```

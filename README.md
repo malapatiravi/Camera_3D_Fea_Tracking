@@ -32,7 +32,7 @@ In this final project, you will implement the missing parts in the schematic. To
 3. Compile: `cmake .. && make`
 4. Run it: `./3D_object_tracking`.
 
-#Student Notes
+# Student Notes
 Custom settings
 1. #define CUSTOM_RING_BUFFER // Enable this to have custom Ring buffer in the code
 2. #define PERF_TESTING //Emable this to have every combination os Detector and Descriptor to run and log results.
